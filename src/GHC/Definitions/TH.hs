@@ -26,15 +26,9 @@ import Language.Haskell.TH.Syntax (Dec, Exp, Info (..), Lift (..), Name, Pat, Q,
                                    Quasi (..), Stmt, Type (..), VarBangType,
                                    mkName, nameBase, nameModule)
 
-#if MIN_VERSION_ghc(9, 0, 1)
 import qualified GHC.Core.Class as GHC
 import qualified GHC.Plugins    as GHC
 import qualified GHC.Tc.Plugin  as GHC
-#else
-import qualified Class      as GHC
-import qualified GhcPlugins as GHC
-import qualified TcPluginM  as GHC
-#endif
 
 data Config = Config
   { recordName     ∷ String

@@ -7,11 +7,7 @@
 
 module GHC.Definitions.TH.Example where
 
-#if MIN_VERSION_ghc(9, 0, 1)
 import GHC.Builtin.Types  (eqTyCon)
-#else
-import TysWiredIn         (eqTyCon)
-#endif
 import GHC.Definitions.TH (makeDefinitions, makePattern)
 import GHC.TypeNats       (type (-))
 
