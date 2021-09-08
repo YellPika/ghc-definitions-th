@@ -1,10 +1,8 @@
-{-# LANGUAGE
-    BlockArguments,
-    CPP,
-    TemplateHaskell,
-    UnicodeSyntax,
-    ViewPatterns
-  #-}
+{-# LANGUAGE BlockArguments  #-}
+{-# LANGUAGE CPP             #-}
+{-# LANGUAGE TemplateHaskell #-}
+{-# LANGUAGE UnicodeSyntax   #-}
+{-# LANGUAGE ViewPatterns    #-}
 
 module GHC.Definitions.TH (
   Config (..), autoConfig, defaultConfig,
@@ -12,21 +10,30 @@ module GHC.Definitions.TH (
   makePattern
 ) where
 
-import Data.Char
-import Data.Constraint
-import Data.Maybe
+import Data.Char       (toLower)
+import Data.Constraint (Dict (..))
+import Data.Maybe      (fromJust, fromMaybe)
 
-import Language.Haskell.TH.Lib
-import Language.Haskell.TH.Syntax
+import Language.Haskell.TH.Lib    (appE, bang, bangType, bindS, clause, conT,
+                                   cxt, dataD, doE, explBidir, fieldExp,
+                                   forallT, funD, implicitParamBindD,
+                                   implicitParamT, implicitParamVarE, letS,
+                                   noBindS, noSourceStrictness,
+                                   noSourceUnpackedness, normalB, patSynD,
+                                   patSynSigD, prefixPatSyn, recC, recConE,
+                                   sigD, tySynD, varBangType, varE, varP, varT)
+import Language.Haskell.TH.Syntax (Dec, Exp, Info (..), Lift (..), Name, Pat, Q,
+                                   Quasi (..), Stmt, Type (..), VarBangType,
+                                   mkName, nameBase, nameModule)
 
 #if MIN_VERSION_ghc(9, 0, 1)
-import qualified GHC.Plugins as GHC
-import qualified GHC.Tc.Plugin as GHC
 import qualified GHC.Core.Class as GHC
+import qualified GHC.Plugins    as GHC
+import qualified GHC.Tc.Plugin  as GHC
 #else
+import qualified Class      as GHC
 import qualified GhcPlugins as GHC
-import qualified TcPluginM as GHC
-import qualified Class as GHC
+import qualified TcPluginM  as GHC
 #endif
 
 data Config = Config
