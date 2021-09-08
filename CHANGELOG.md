@@ -1,5 +1,5 @@
-# Revision history for ghc-defs-tc
+# Revision history for ghc-definitions-th
 
-## 0.1.0.0 -- YYYY-mm-dd
+## 0.1.0.0 -- 2021-09-08
 
-* First version. Released on an unsuspecting world.
+* Initial version.
