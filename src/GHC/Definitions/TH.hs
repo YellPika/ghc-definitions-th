@@ -279,12 +279,20 @@ lookupVar mn on = do
 
 lookupModule ∷ String → GHC.TcPluginM GHC.Module
 lookupModule mn = do
-  result ← GHC.findImportedModule (GHC.mkModuleName mn) Nothing
+  result ← GHC.findImportedModule (GHC.mkModuleName mn) noPkgQual
   case result of
     GHC.Found _ md → return md
     _              → do
       GHC.tcPluginTrace "[ghc-definitions-th]" (GHC.text ("Could not locate module " ++ mn))
       error "lookupModule: failed"
+
+#if MIN_VERSION_ghc(9,3,0)
+noPkgQual ∷ GHC.PkgQual
+noPkgQual = GHC.NoPkgQual
+#else
+noPkgQual ∷ Maybe GHC.FastString
+noPkgQual = Nothing
+#endif
 
 lower ∷ String → String
 lower ""     = ""
